@@ -42,7 +42,7 @@
                 }else{
                     echo("<p>кружка повна</p>");
                 }
-                $sugarInCup = ($sugar/$waterAll)*$inOneCup;
+                $sugarInCup = round(($sugar/$waterAll)*$inOneCup, 2);
                 // $sugarInCup = ($sugar/250)*$inOneCup;
                 $teaInCup = (2/250)*$inOneCup;
                 echo("<p>опусаємо чайний пакетик на $teaInCup хв</p>");
