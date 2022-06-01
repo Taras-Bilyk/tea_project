@@ -8,67 +8,60 @@
 </head>
 <body>
     <h1>Заварювання чаю</h1>
-    <form action="index.php" method="POST">
-        <input type="number" value="1" name="numberOfCups"><label for="">  кількість чашок</label>
-        <p><input type="radio" value="200" name="o" id="ml1" checked><label for="ml1"> 200 мл</label></p>
-        <p><input type="radio" value="300" name="o" id="ml2"><label for="ml2"> 300 мл</label></p>
-        <p><input type="checkbox" name="sugar" id="sugar" value="1" checked disabled><label for="sugar"> цукор 1 л./100 мл</label></p>
-        <p><input type="hidden" name="sugar" value="1"></p>
+    <form action="index2.php" method="POST">
+        <p>water (ml)</p>
+        <input type="range" value="200" min="50" max="1000" step="50" oninput="this.nextElementSibling.value = this.value">
+        <input name="water" type="text" value="50" oninput="this.previousElementSibling.value = this.value">
+        <p>sugar (all water)</p>
+        <input type="range" value="2" min="0" max="5" step="0.5" oninput="this.nextElementSibling.value = this.value">
+        <input name="sugar" type="text" value="2" oninput="this.previousElementSibling.value = this.value">
         <p><input type="submit" value="Зробити чай"></p>
     </form>
-    <?php
+    <?php error_reporting(2);
         if($_POST){
-            echo("<p>==================START==================</p>");
+
+            echo("<p>=============START=============</p>");
+
             echo(var_dump($_POST));
-
-            $allWater = 100;
-            $allSugar = 20;
-            $allCups200 = 28;
-            $allCups300 = 20;
-            $allTea = 58;
-
-            $numberOfCups = $_POST["numberOfCups"];
-            $o = $_POST["o"];
+            $inOneCup = 0;
+            $water = $_POST["water"];
+            $waterAll = $_POST["water"];
             $sugar = $_POST["sugar"];
-
-            $sugarInAllCups = 0;
             $waterInCups = 0;
-            $timeOfWait = 0;
-            $cups = 0;
-            $numberOfCups2 = 0;
+            $cups = 1;
 
-            echo("<p>Чайник закипів</p>");
-            for($i = 1; $i <= $numberOfCups; $i++){
-                
-                echo("<p>налито $o мл води</p>");
-                echo("<p>кружка повна</p>");
-                $o2 = $o/100;
-                echo("<p>опускаємо чайний пакетик</p>");
-                echo("<p>чекаємо 2 хвилини</p>");
-                echo("<p>виймаємо чайний пакетик</p>");
-                echo("<p>кидаємо $o2 ложки цукру</p>");
+            echo("<p>чайник закипів</p>");
+            while($water > 0){
+                while($inOneCup < 250 && $water > 0){
+                    $inOneCup += 50;
+                    $water -= 50;
+                    echo("<p>Налито $inOneCup мл води</p>");
+                }
+                if($water == 0){
+                    echo("<p>вода закінчилась</p>");
+                }else{
+                    echo("<p>кружка повна</p>");
+                }
+                $sugarInCup = round(($sugar/$waterAll)*$inOneCup, 2);
+                // $sugarInCup = ($sugar/250)*$inOneCup;
+                $teaInCup = (2/250)*$inOneCup;
+                echo("<p>опусаємо чайний пакетик на $teaInCup хв</p>");
+                echo("<p>кидаємо $sugarInCup ч.л. цукру</p>");
                 echo("<p>розмішуємо</p>");
-                echo("<p>$i чашка чаю готова</p>");
-                $numberOfCups2 += 1;
-                
-                if($numberOfCups2 > 0 && $numberOfCups2 < $numberOfCups){
+                echo("$cups чашка чаю готова");
+                if($water > 0){
                     echo("<p>беремо наступну кружку</p>");
-                }   
-                
-                $sugarInAllCups = $sugarInAllCups+($o/100);
-                $waterInCups += $o;
+                }
+                $inOneCup = 0;
                 $cups += 1;
-                $timeOfWait += 2;
             }
-
-            echo("<p>============</p>");
-            echo("<p>Зроблено $cups чашок чаю ($o мл)</p>");
-            echo("<p>All sugar: $sugarInAllCups л.</p>");
-            echo("<p>All water: $waterInCups мл</p>");
-            echo("All time: $timeOfWait хв");
-            echo("<p>===================END===================</p>");
+            // echo("<p>вода закінчилась</p>");
+            echo("<p>смачного чаювання!</p>");
+            
+            echo("<p>==============END==============</p>");
 
         }
+
     ?>
 </body>
 </html>
