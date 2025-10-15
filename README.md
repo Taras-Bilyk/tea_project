@@ -7,7 +7,6 @@ This project was made to revisit the basics of PHP.
 
 ## Technologies Used
 - PHP
-- CSS
 
 ## Project Structure
 - `index.php` — main page
